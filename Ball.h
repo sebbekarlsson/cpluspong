@@ -1,19 +1,19 @@
 #include <SDL2/SDL_opengl.h>
 #include <SDL2/SDL.h>
 
-
 extern const int SCALE;
 extern const int WIDTH;
 extern const int HEIGHT;
 
 
+class Game;
 class Ball: public Entity {
     public:
         float w = 16;
         float h = 16;
 
 
-        Ball (float x, float y) : Entity(x, y) {
+        Ball (Game& game, float x, float y) : Entity(game, x, y) {
             this->friction = 0.1f;
             
             srand(time(NULL)); 

@@ -1,17 +1,29 @@
-#include <math.h> 
+#include <math.h>
+#include <vector>
+#include <memory>
+#include <list>
+#include <iterator>
 #include "vars.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_opengl.h>
 #include "Instance.h"
-#include "Entity.h"
-#include "Paddle.h"
-#include "Ball.cpp"
 #include "Game.h"
+#include "Entity.h"
+#include "Ball.h"
+#include "Paddle.h"
+
 
 
 const Uint8 *keys = SDL_GetKeyboardState(NULL);
 int main (int argc, char* args[]) {
     Game game;
+
+    game.instances.insert(game.instances.begin(), new Paddle(game, 2, 0));
+    game.instances.insert(game.instances.begin(),
+            new Ball(game,
+                ((WIDTH * SCALE) / 2) - 8,
+                ((HEIGHT * SCALE) / 2) - 8)
+            );
 
     game.init();
 

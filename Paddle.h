@@ -15,14 +15,14 @@ class Paddle: public Entity {
         float h = 128.0f;
 
 
-        Paddle (float x, float y) : Entity(x, y) {
+        Paddle (Game& game, float x, float y) : Entity(game, x, y) {
             this->friction = 0.5f;
         }
 
 
         void draw () {
             glColor3f(0.0f, 0.0f, 0.0f);
-            
+
             glPushMatrix();
             glTranslatef(this->x, this->y, 0.0f);
             glBegin(GL_QUADS);
@@ -41,6 +41,13 @@ class Paddle: public Entity {
             }
             if (state[SDL_SCANCODE_DOWN]) {
                 dy += 2;
+                
+                // WHY IS THIS NOT WORKING..?..?..?..?..?..?..?..?.
+                game.instances.insert(this->game.instances.begin(),
+                        new Ball(this->game,
+                            ((WIDTH * SCALE) / 2) - 8,
+                            ((HEIGHT * SCALE) / 2) - 8)
+                        );
             }
 
             if (y + dy <= 0) {

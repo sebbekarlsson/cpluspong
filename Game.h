@@ -1,11 +1,3 @@
-#pragma once
-
-#include <vector>
-#include <memory>
-#include <list>
-#include <iterator>
-
-
 extern const int WIDTH;
 extern const int HEIGHT;
 extern const int SCALE;
@@ -17,7 +9,7 @@ class Game {
 
         std::list<Instance*> instances;
         std::list<Instance*>::iterator iter;
-        
+
         SDL_Window* display = NULL;
         SDL_GLContext context;
 
@@ -27,12 +19,6 @@ class Game {
          */
         Game () {
             this->quit = false;
-            this->instances.insert(instances.begin(), new Paddle(2, 0));
-            this->instances.insert(instances.begin(),
-                    new Ball( 
-                        ((WIDTH * SCALE) / 2) - 8,
-                        ((HEIGHT * SCALE) / 2) - 8)
-                    );
         }
 
 
@@ -134,7 +120,7 @@ class Game {
          */
         void render () {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-            
+
             Instance *instance;
             for (iter = instances.begin() ; iter != instances.end(); iter++) {
                 instance = &**iter;

@@ -7,9 +7,10 @@ class Entity: public Instance {
         float dx = 0.0f;
         float dy = 0.0f;
         float friction = 0.1f;
+        Game game;
 
-
-        Entity (float x, float y) : Instance(x, y) {
+        Entity (Game& game, float x, float y) : Instance(x, y) {
+            this->game = game;
         }
 
 

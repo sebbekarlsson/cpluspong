@@ -8,6 +8,7 @@ class Instance {
         float y = 0;
 
 
+
         Instance (float x, float y) {
             this->x = x;
             this->y = y;
