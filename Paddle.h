@@ -1,22 +1,26 @@
 #pragma once
 #include <SDL2/SDL_opengl.h>
 #include <SDL2/SDL.h>
+#include <iostream>
+#include <string>
 
 
 extern const int SCALE;
 extern const int WIDTH;
 extern const int HEIGHT;
 
+using namespace std;
+
 const Uint8 *state = SDL_GetKeyboardState(NULL);
 
 class Paddle: public Entity {
     public:
-        float w = 16.0f;
-        float h = 128.0f;
 
-
-        Paddle (Game& game, float x, float y) : Entity(game, x, y) {
+        Paddle (Game *game, float x, float y) : Entity(game, x, y) {
             this->friction = 0.5f;
+            this->type = "paddle";
+            this->w = 16.0f;
+            this->h = 128.0f;
         }
 
 
@@ -37,17 +41,11 @@ class Paddle: public Entity {
 
         void tick () {
             if (state[SDL_SCANCODE_UP]) {
-                dy -= 2;
+                dy -= 2.0f;
             }
             if (state[SDL_SCANCODE_DOWN]) {
-                dy += 2;
-                
-                // WHY IS THIS NOT WORKING..?..?..?..?..?..?..?..?.
-                game.instances.insert(this->game.instances.begin(),
-                        new Ball(this->game,
-                            ((WIDTH * SCALE) / 2) - 8,
-                            ((HEIGHT * SCALE) / 2) - 8)
-                        );
+                dy += 2.0f;
+                    
             }
 
             if (y + dy <= 0) {

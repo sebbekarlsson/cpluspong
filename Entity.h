@@ -1,15 +1,15 @@
 #pragma once
 #include "Instance.h"
+#include <iostream>
+
+using namespace std;
 
 
 class Entity: public Instance {
     public:
-        float dx = 0.0f;
-        float dy = 0.0f;
-        float friction = 0.1f;
-        Game game;
+        Game *game;
 
-        Entity (Game& game, float x, float y) : Instance(x, y) {
+        Entity (Game *game, float x, float y) : Instance(x, y) {
             this->game = game;
         }
 
@@ -44,7 +44,9 @@ class Entity: public Instance {
                     dy += friction;
                 }
             }
-
+            
+            px = x - (dx);
+            py = y - (dy);
             x += dx;
             y += dy;
         }
