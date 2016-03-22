@@ -24,11 +24,11 @@ class Ball: public Entity {
 
             srand(time(NULL)); 
             float randNum = rand()%(360-0 + 1) + 0;
-            this->addForce(0.0f, 12.0f);
+            this->addForce(randNum, 200.0f);
         }
 
 
-        void draw () {
+        void draw (float delta) {
             glColor3f(0.0f, 0.0f, 0.0f);
 
             glPushMatrix();
@@ -43,12 +43,12 @@ class Ball: public Entity {
         }
 
 
-        void tick () {
+        void tick (float delta) {
             Instance *instance;
             for (iter = this->game->instances.begin() ; iter != this->game->instances.end(); iter++) {
                 instance = &**iter;
-
-                if (instance->type == "ball") {
+                
+                if (instance == this) {
                     continue;
                 }
 
@@ -57,23 +57,27 @@ class Ball: public Entity {
                 float inst_w = instance->w;
                 float inst_h = instance->h;
 
-                if (y + (dy) <= 0) {
-                    bounce(3.0f);
+                if (y + (dy * delta) <= 0) {
+                    bounce(3.0f, delta);
                 }
-                if ((y+h) + (dy) >= HEIGHT * SCALE) {
-                    bounce(3.0f);
-                }
-
-                if (x + (dx) <= 0) {
-                    bounce(3.0f);
-                }
-                if ((x+w) + (dx) >= WIDTH * SCALE) {
-                    bounce(3.0f);
+                if ((y+h) + (dy * delta) >= HEIGHT * SCALE) {
+                    bounce(3.0f, delta);
                 }
 
-                if ((y+h) + (dy) >= inst_y && y+(dy) <= inst_y+inst_h) {
-                    if ((x+w)+(dx) >= inst_x && x+(dx) <= inst_x+inst_w) {
-                        bounce(5.2f);
+                if (x + (dx * delta) <= 0) {
+                    bounce(3.0f, delta);
+                }
+                if ((x+w) + (dx * delta) >= WIDTH * SCALE) {
+                    bounce(3.0f, delta);
+                }
+
+                if ((y+h) + (dy * delta) >= inst_y && y+(dy * delta) <= inst_y+inst_h) {
+                    if ((x+w)+(dx * delta) >= inst_x && x+(dx * delta) <= inst_x+inst_w) {
+                        bounce(100.0f, delta);
+
+                        if (instance->type != "paddle") {
+                            instance->bounce(20.0f, delta, true);
+                        }
                     }
                 }
 
@@ -94,20 +98,6 @@ class Ball: public Entity {
 
             }
 
-            this->updatePhysics();
-        }
-
-
-        void bounce (float m) {
-            float speed = ((px - x) + (py - y) / 2);
-            if (speed >= 1.5f) {  speed = 1.5f;  }
-
-            float dir = atan2(py - y, px - x) * 180 / M_PI;
-            cout << dir << endl;
-
-            dx = 0;
-            dy = 0;
-
-            this->addForce(-dir , m);
+            this->updatePhysics(delta);
         }
 };

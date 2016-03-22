@@ -45,11 +45,20 @@ int main (int argc, char* args[]) {
             }
         }
 
-        game.render();
-        game.update();
+        game.render(delta);
+        game.update(delta);
+
+        if (state[SDL_SCANCODE_X]) {
+            game.instances.insert(game.instances.begin(),
+                    new Ball(&game,
+                        ((WIDTH * SCALE) / 2) - 8,
+                        ((HEIGHT * SCALE) / 2) - 8)
+                    );
+
+        }
 
         SDL_GL_SwapWindow(game.display);
-        
+
         SDL_Delay(1);
         oldTime = newTime; 
     }

@@ -26,6 +26,29 @@ class Instance {
         }
 
 
-        virtual void tick() = 0;
-        virtual void draw() = 0;
+        virtual void tick(float delta) = 0;
+        virtual void draw(float delta) = 0;
+
+
+        void addForce (float direction, float force) {
+            float radians = direction * M_PI / 180.0; 
+            dx += (float) (cos(radians) * force);
+	    dy += (float) (sin(radians) * force);
+        }
+
+
+        void bounce (float m, float delta, bool revert=false) {
+            float distance = sqrt((x-(x-dx * delta))*(x-(x-dx * delta)) + (y-(y-dy * delta))*(y-(y-dy * delta)));
+            float speed = distance/delta;
+            float dir = atan2(py - y, px - x) * 180 / M_PI;
+
+            dx = 0;
+            dy = 0;
+
+            if (revert == true) {
+                dir = -dir;
+            }
+
+            this->addForce(dir , speed+m);
+        }
 };

@@ -17,14 +17,14 @@ class Paddle: public Entity {
     public:
 
         Paddle (Game *game, float x, float y) : Entity(game, x, y) {
-            this->friction = 0.5f;
+            this->friction = 6.5f;
             this->type = "paddle";
             this->w = 16.0f;
             this->h = 128.0f;
         }
 
 
-        void draw () {
+        void draw (float delta) {
             glColor3f(0.0f, 0.0f, 0.0f);
 
             glPushMatrix();
@@ -39,25 +39,24 @@ class Paddle: public Entity {
         }
 
 
-        void tick () {
+        void tick (float delta) {
             if (state[SDL_SCANCODE_UP]) {
-                dy -= 2.0f;
+                dy -= 64.0f;
             }
             if (state[SDL_SCANCODE_DOWN]) {
-                dy += 2.0f;
-                    
+                dy += 64.0f;
             }
 
-            if (y + dy <= 0) {
+            if (y + (dy*delta) <= 0) {
                 dy = 0;
                 y = 0;
             }
 
-            if ((y+h) + dy >= HEIGHT * SCALE) {
+            if ((y+h) + (dy*delta) >= HEIGHT * SCALE) {
                 dy = 0;
                 y = (HEIGHT * SCALE)-h;
             }
 
-            this->updatePhysics();
+            this->updatePhysics(delta);
         }
 };

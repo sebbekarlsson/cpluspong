@@ -106,11 +106,11 @@ class Game {
         /**
          * Tick/Update function.
          */
-        void update () {
+        void update (float delta) {
             Instance *instance;
             for (iter = instances.begin() ; iter != instances.end(); iter++) {
                 instance = &**iter;
-                instance->tick();
+                instance->tick(delta);
             }
         }
 
@@ -118,13 +118,13 @@ class Game {
         /**
          * This function is used to draw a rotating green plane.
          */
-        void render () {
+        void render (float delta) {
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
             Instance *instance;
             for (iter = instances.begin() ; iter != instances.end(); iter++) {
                 instance = &**iter;
-                instance->draw();
+                instance->draw(delta);
             }
         }
 

@@ -14,7 +14,7 @@ class Entity: public Instance {
         }
 
 
-        void updatePhysics () {
+        void updatePhysics (float delta) {
             if(dx > 0){
                 if(dx - friction < 0){
                     dx = 0;
@@ -45,16 +45,10 @@ class Entity: public Instance {
                 }
             }
             
-            px = x - (dx);
-            py = y - (dy);
-            x += dx;
-            y += dy;
+            px = x - (dx*delta);
+            py = y - (dy*delta);
+            x += dx * delta;
+            y += dy * delta;
         }
 
-
-        void addForce (float direction, float force) {
-            float radians = direction * M_PI / 180.0; 
-            dx += (float) (cos(radians) * force);
-	    dy += (float) (sin(radians) * force);
-        }
 };
