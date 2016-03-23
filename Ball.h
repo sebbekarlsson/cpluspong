@@ -13,8 +13,8 @@ extern const int HEIGHT;
 class Game;
 class Ball: public Entity {
     public:
-        float w = 32;
-        float h = 32;
+        float w = 42;
+        float h = 42;
         float r = 0.0f;
         SDL_Surface * image = IMG_Load("b1.png");
         SDL_Texture * texture = SDL_CreateTextureFromSurface(NULL, image);
@@ -41,7 +41,7 @@ class Ball: public Entity {
 
         void draw (float delta) {
             glColor3f(1.0f, 1.0f, 1.0f);
-
+            
             glPushMatrix();
             
             glTranslatef(this->x, this->y, 0.0f);
@@ -86,25 +86,25 @@ class Ball: public Entity {
                 float inst_h = instance->h;
 
                 if (y + (dy * delta) <= 0) {
-                    bounce(3.0f, delta);
+                    bounce(2.0f, delta);
                 }
                 if ((y+h) + (dy * delta) >= HEIGHT * SCALE) {
-                    bounce(3.0f, delta);
+                    bounce(2.0f, delta);
                 }
 
                 if (x + (dx * delta) <= 0) {
-                    bounce(3.0f, delta);
+                    bounce(2.0f, delta);
                 }
                 if ((x+w) + (dx * delta) >= WIDTH * SCALE) {
-                    bounce(3.0f, delta);
+                    bounce(2.0f, delta);
                 }
 
                 if ((y+h) + (dy * delta) >= inst_y && y+(dy * delta) <= inst_y+inst_h) {
                     if ((x+w)+(dx * delta) >= inst_x && x+(dx * delta) <= inst_x+inst_w) {
-                        bounce(100.0f, delta);
+                        bounce(60.0f, delta);
 
                         if (instance->type != "paddle") {
-                            instance->bounce(20.0f, delta, true);
+                            instance->bounce(2.0f, delta, true);
                         }
                     }
                 }

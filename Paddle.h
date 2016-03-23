@@ -27,8 +27,8 @@ class Paddle: public Entity {
         Paddle (Game *game, float x, float y) : Entity(game, x, y) {
             this->friction = 6.5f;
             this->type = "paddle";
-            this->w = 32.0f;
-            this->h = 128.0f;
+            this->w = 42.0f;
+            this->h = 156.0f;
 
             if(image->format->BytesPerPixel == 4) {
                 Mode = GL_RGBA;

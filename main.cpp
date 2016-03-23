@@ -21,8 +21,8 @@ const Uint8 *keys = SDL_GetKeyboardState(NULL);
 int main (int argc, char* args[]) {
     Game game;
 
-    game.instances.insert(game.instances.begin(), new Paddle(&game, 2, 0));
-    game.instances.insert(game.instances.begin(), new Paddle(&game, (WIDTH*SCALE)-(2+32), 0));
+    game.instances.insert(game.instances.begin(), new Paddle(&game, 16, 0));
+    game.instances.insert(game.instances.begin(), new Paddle(&game, (WIDTH*SCALE)-(16+32), 0));
     game.instances.insert(game.instances.begin(),
             new Ball(&game,
                 ((WIDTH * SCALE) / 2) - 8,
