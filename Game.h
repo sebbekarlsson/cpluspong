@@ -2,6 +2,7 @@ extern const int WIDTH;
 extern const int HEIGHT;
 extern const int SCALE;
 
+SDL_Window* display = NULL;
 class Game {
     public:
 
@@ -10,7 +11,7 @@ class Game {
         std::list<Instance*> instances;
         std::list<Instance*>::iterator iter;
 
-        SDL_Window* display = NULL;
+
         SDL_GLContext context;
 
 
@@ -42,7 +43,14 @@ class Game {
 
             glMatrixMode(GL_MODELVIEW);
 
-            glDisable(GL_TEXTURE_2D);
+            glEnable(GL_TEXTURE_2D);
+            glEnable(GL_DEPTH_TEST);
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            glEnable(GL_TEXTURE_2D);
+
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
             glLoadIdentity();    
 

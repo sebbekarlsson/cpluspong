@@ -1,19 +1,26 @@
 #include <SDL2/SDL_opengl.h>
 #include <SDL2/SDL.h>
+#include <SDL2/SDL_image.h>
 #include <iostream>
 #include <string>
+
 
 using namespace std;
 extern const int SCALE;
 extern const int WIDTH;
 extern const int HEIGHT;
 
-
 class Game;
 class Ball: public Entity {
     public:
-        float w = 16;
-        float h = 16;
+        float w = 32;
+        float h = 32;
+        float r = 0.0f;
+        SDL_Surface * image = IMG_Load("b1.png");
+        SDL_Texture * texture = SDL_CreateTextureFromSurface(NULL, image);
+
+        GLuint TextureID = 0;
+        int Mode = GL_RGB;
 
         std::list<Instance*>::iterator iter;
 
@@ -25,19 +32,40 @@ class Ball: public Entity {
             srand(time(NULL)); 
             float randNum = rand()%(360-0 + 1) + 0;
             this->addForce(randNum, 200.0f);
+
+            if(image->format->BytesPerPixel == 4) {
+                Mode = GL_RGBA;
+            }
         }
 
 
         void draw (float delta) {
-            glColor3f(0.0f, 0.0f, 0.0f);
+            glColor3f(1.0f, 1.0f, 1.0f);
 
             glPushMatrix();
+            
             glTranslatef(this->x, this->y, 0.0f);
+            glRotatef(r, 0.0f, 0.0f, 1.0f);
+
+            glBindTexture(GL_TEXTURE_2D, TextureID);
+            glTexImage2D(GL_TEXTURE_2D, 0, Mode, image->w, image->h, 0, Mode, GL_UNSIGNED_BYTE, image->pixels);
+            glBindTexture(GL_TEXTURE_2D, TextureID);
             glBegin(GL_QUADS);
+
+            glTexCoord2f(0.0f, 0.0f);
             glVertex2f(0.0f, 0.0f);
+
+
+            glTexCoord2f(0.0f, 1.0f);
             glVertex2f(0.0f, this->h);
+
+            glTexCoord2f(1.0f, 1.0f);
             glVertex2f(this->w, this->h);
+
+
+            glTexCoord2f(1.0f, 0.0f);
             glVertex2f(this->w, 0.0f);
+
             glEnd();
             glPopMatrix();
         }
@@ -47,7 +75,7 @@ class Ball: public Entity {
             Instance *instance;
             for (iter = this->game->instances.begin() ; iter != this->game->instances.end(); iter++) {
                 instance = &**iter;
-                
+
                 if (instance == this) {
                     continue;
                 }
@@ -97,6 +125,8 @@ class Ball: public Entity {
                 this->addForce(randNum, 200.0f);
 
             }
+
+            r += 0.1f;
 
             this->updatePhysics(delta);
         }

@@ -22,7 +22,7 @@ int main (int argc, char* args[]) {
     Game game;
 
     game.instances.insert(game.instances.begin(), new Paddle(&game, 2, 0));
-    game.instances.insert(game.instances.begin(), new Paddle(&game, (WIDTH*SCALE)-(2+16), 0));
+    game.instances.insert(game.instances.begin(), new Paddle(&game, (WIDTH*SCALE)-(2+32), 0));
     game.instances.insert(game.instances.begin(),
             new Ball(&game,
                 ((WIDTH * SCALE) / 2) - 8,
@@ -57,7 +57,7 @@ int main (int argc, char* args[]) {
 
         }
 
-        SDL_GL_SwapWindow(game.display);
+        SDL_GL_SwapWindow(display);
 
         SDL_Delay(1);
         oldTime = newTime; 
